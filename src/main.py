@@ -16,8 +16,8 @@ while True:
     # if user closes window or presses cancel
     if event == sg.WIN_CLOSED or sg.Cancel:
         break
-#    count = ++1
-#    window['-PROGRESS_BAR-'].update(current_count=count)
+#?    count = ++1
+#?    window['-PROGRESS_BAR-'].update(current_count=count)
     time.wait(1)
 
 
