@@ -20,22 +20,26 @@ def login():
     layoutLogin= [  [sg.Text('Username:', size=(18,1)), sg.In(k='-USERNAME-', size=(10,1))],   
                         [sg.Text('Password:', size=(18,1)), sg.In(k='-PASS-', size=(10,1))],
                         [sg.Text('Key:', size=(18,1)), sg.In(k='-KEY-', size=(10,1))],
-                        [sg.Ok(), sg.Cancel(), sg.Button('Delete Account')] ]
+                        [sg.Ok(), sg.Cancel(),] ]
 
 
-    try: 
-        with open('auth_info.txt', 'r') as file:
-            content = file.read()
-            if content == '':
-                os.remove("auth_info.txt")
-    except FileNotFoundError:
-        pass
+    files = os.listdir(os.path.expanduser("~/Documents/python/project /src/accounts"))
+    if str(files) == '[]' :
+        print('no accounts found')
+    else:
+        print(str(files))
+        for file in files: 
+            with open(os.path.expanduser("~/Documents/python/project /src/accounts/"+file), 'r') as file_:
+                contents=file_.read()
+                if contents == '':
+                    os.remove(os.path.expanduser("~/Documents/python/project /src/accounts/"+file))
 
     try:
-        with open("auth_info.txt", "r") as file:
+        files = os.listdir(os.path.expanduser("~/Documents/python/project /src/accounts"))
+        with open(os.path.expanduser("~/Documents/python/project /src/accounts/"+file), "r") as file:
             content = file.read()
 
-    except FileNotFoundError:
+    except IsADirectoryError:
             register = sg.Window('Registration', layoutRegister)
 
             while True:
@@ -59,7 +63,7 @@ def login():
                 elif event == sg.WIN_CLOSED or 'Cancel':
                     register.close()
                     exit()
-            with open('auth_info.txt', 'w') as file:
+            with open(os.path.expanduser("~/Documents/python/project /src/accounts/"+username), 'w') as file:
                 file.write(str(Fernet(key).encrypt(bytes(username, 'utf-8') + b"\n" + bytes(password, 'utf-8'))))
 
 
@@ -73,7 +77,8 @@ def login():
             username2 =  values['-USERNAME-']
             password2 =  values['-PASS-']
             content2 = eval(str(bytes(username2+'\n'+password2, 'utf-8')))
-            with open('auth_info.txt', 'r') as file:
+            for file in files:
+                file = open(os.path.expanduser("~/Documents/python/project /src/accounts/"+file), 'r')
                 content = file.read()
                 dec_cont = Fernet(key2).decrypt(eval(content))
                 print(content2)
@@ -84,12 +89,9 @@ def login():
                     break
                 elif content != content2:
                     sg.popup("Incorrect data")
-        elif event == "Delete Account":
-            open('auth_info.txt', 'w')
-            exit()
         elif event == sg.WIN_CLOSED or event == 'Cancel':
             exit()
 
     window.close()
 
-    print("SUCCESS")
+    return True
