@@ -28,9 +28,7 @@ def acc_settings(username, password):
     thing = [
         [sg.Text("Username:"), sg.Text(username)],
         [sg.Text("Password:"), sg.Text(password)],
-        [sg.Text("Key:")], 
-        [sg.Text(str(key, size=(10,4)))],
-        [sg.Button("Copy key")],
-        [sg.Button("Apply changes"), sg.Button("Delete account")]
+        [sg.Text("Key:"), sg.Button("Copy key")],
+        [sg.Button("Delete account")]
     ]
     return thing
