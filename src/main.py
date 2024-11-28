@@ -1,8 +1,7 @@
 import login
+from variables import *
 
+name_returned = login.login(layoutRegister=layoutRegister, key=key, layoutLogin=layoutLogin, layoutPopup=layoutPopup)
 
-
-password_returned = login.login()
-
-if password_returned == True:
+if name_returned == 'account1':
     print("first account") 

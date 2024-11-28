@@ -1,45 +1,40 @@
+# This is the login sequence. 
 import PySimpleGUI as sg 
 from cryptography.fernet import Fernet
 import pyperclip
 import os
 
 
-def login():
-    key = Fernet.generate_key()
-    #* everything inside the windows
-
-    layoutRegister = [  
-                        [sg.Text('Create a username:', size=(16,1)), sg.In(k='-USERNAME-', size=(10,1))],
-                        [sg.Text('Create a password:', size=(16,1)), sg.In(k='-PASS-', size=(10,1))],
-                        [sg.Ok(), sg.Cancel()] ]
-    layoutPopup = [
-                    [sg.Text("COPY THIS", size=(9,1))],
-                    [sg.Text(str(key),size=(20,7))],
-                    [sg.Button('Copy')]
-    ]
-    layoutLogin= [  [sg.Text('Username:', size=(18,1)), sg.In(k='-USERNAME-', size=(10,1))],   
-                        [sg.Text('Password:', size=(18,1)), sg.In(k='-PASS-', size=(10,1))],
-                        [sg.Text('Key:', size=(18,1)), sg.In(k='-KEY-', size=(10,1))],
-                        [sg.Ok(), sg.Cancel(),] ]
+def login(layoutRegister, layoutPopup, layoutLogin, key):
 
 
     files = os.listdir(os.path.expanduser("~/Documents/python/project /src/accounts"))
+    print(str(files))
     if str(files) == '[]' :
         print('no accounts found')
     else:
         print(str(files))
         for file in files: 
-            with open(os.path.expanduser("~/Documents/python/project /src/accounts/"+file), 'r') as file_:
-                contents=file_.read()
-                if contents == '':
-                    os.remove(os.path.expanduser("~/Documents/python/project /src/accounts/"+file))
+            if file.endswith('.txt'):
+                with open(os.path.expanduser("~/Documents/python/project /src/accounts/"+file), 'r') as file_:
+                    contents=file_.read()
+                    if contents == '':
+                        os.remove(os.path.expanduser("~/Documents/python/project /src/accounts/"+file))
+            else:
+                pass
 
     try:
         files = os.listdir(os.path.expanduser("~/Documents/python/project /src/accounts"))
-        with open(os.path.expanduser("~/Documents/python/project /src/accounts/"+file), "r") as file:
-            content = file.read()
+        file2 = files[0]
+        print(file2)
+        for file in files:
+            if file.endswith('.txt'):
+                with open(os.path.expanduser("~/Documents/python/project /src/accounts/"+file), "r") as file:
+                    content = file.read()
+            else: 
+                pass
 
-    except IsADirectoryError:
+    except IndexError:
             register = sg.Window('Registration', layoutRegister)
 
             while True:
@@ -70,28 +65,28 @@ def login():
     window = sg.Window('Log In', layoutLogin)
     while True:
         event, values = window.read()
-
-
         if event == 'Ok':
             key2 = eval(values['-KEY-'].encode('utf-8'))
             username2 =  values['-USERNAME-']
             password2 =  values['-PASS-']
             content2 = eval(str(bytes(username2+'\n'+password2, 'utf-8')))
             for file in files:
-                file = open(os.path.expanduser("~/Documents/python/project /src/accounts/"+file), 'r')
-                content = file.read()
-                dec_cont = Fernet(key2).decrypt(eval(content))
-                print(content2)
-                print(dec_cont)
-                print(type(content2))
-                print(type(dec_cont))
-                if dec_cont == content2:
-                    break
-                elif content != content2:
-                    sg.popup("Incorrect data")
+                if file.endswith('.DS_Store') != True:
+                    file = open(os.path.expanduser("~/Documents/python/project /src/accounts/"+file), 'r')
+                    content = file.read()
+                    dec_cont = Fernet(key2).decrypt(eval(content))
+                    print(content2)
+                    print(dec_cont)
+                    print(type(content2))
+                    print(type(dec_cont))
+                    if dec_cont == content2:
+                        username_final = username2
+                        window.close()
+                        return username_final
+                    elif content != content2:
+                        print('incorrect')
+                        sg.popup("Incorrect data")
+                else:
+                    pass
         elif event == sg.WIN_CLOSED or event == 'Cancel':
             exit()
-
-    window.close()
-
-    return True
