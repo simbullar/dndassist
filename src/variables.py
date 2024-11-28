@@ -20,6 +20,17 @@ layoutLogin= [  [sg.Text('Username:', size=(18,1)), sg.In(k='-USERNAME-', size=(
                         [sg.Text('Key:', size=(18,1)), sg.In(k='-KEY-', size=(10,1))],
                         [sg.Ok(), sg.Cancel(),sg.Button("New account")] ]
 
-layout_main= [
-    
-]
+layoutMain= [
+    [sg.Push(), sg.Text('Welcome back!', font=('Arial', 22)), sg.Push(),sg.Button("Account settings")],
+    [sg.Push(), sg.Text('*'*65), sg.Push()]]
+
+def acc_settings(username, password):
+    thing = [
+        [sg.Text("Username:"), sg.Text(username)],
+        [sg.Text("Password:"), sg.Text(password)],
+        [sg.Text("Key:")], 
+        [sg.Text(str(key, size=(10,4)))],
+        [sg.Button("Copy key")],
+        [sg.Button("Apply changes"), sg.Button("Delete account")]
+    ]
+    return thing

@@ -19,8 +19,8 @@ def create_account(register, key, layoutPopup):
                             with open(os.path.expanduser("~/Documents/python/project /src/accounts/"+username), 'w') as file:
                                 file.write(str(Fernet(key).encrypt(bytes(username, 'utf-8') + b"\n" + bytes(password, 'utf-8'))))
                                 break
-                elif event == sg.WIN_CLOSED:
-                            exit()
+                        elif event == sg.WIN_CLOSED:
+                                exit()
                 elif event == sg.WIN_CLOSED or 'Cancel':
                     register.close()
                     exit()
@@ -75,7 +75,7 @@ def login(layoutRegister, layoutPopup, layoutLogin, key):
                     if dec_cont == content2:
                         username_final = username2
                         window.close()
-                        return username_final
+                        return username_final, password2
                     elif content != content2:
                         print('incorrect')
                         sg.popup("Incorrect data")
