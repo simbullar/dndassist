@@ -12,10 +12,10 @@ layoutRegister = [
 
 layoutPopup = [
                 [sg.Text("COPY THIS", size=(9,1))],
-                [sg.Text(str(key),size=(20,7))],
+                [sg.Text(str(key),size=(20,4))],
                 [sg.Button('Copy')]]
 
 layoutLogin= [  [sg.Text('Username:', size=(18,1)), sg.In(k='-USERNAME-', size=(10,1))],   
                         [sg.Text('Password:', size=(18,1)), sg.In(k='-PASS-', size=(10,1))],
                         [sg.Text('Key:', size=(18,1)), sg.In(k='-KEY-', size=(10,1))],
-                        [sg.Ok(), sg.Cancel(),] ]
+                        [sg.Ok(), sg.Cancel(),sg.Button("New account")] ]
