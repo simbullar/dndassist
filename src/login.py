@@ -15,18 +15,15 @@ def create_account(register, key, layoutPopup):
                     while True:
                         event, values = popup.read()
                         if event =='Copy':
-                            pyperclip.copy(key)
-                            break
-                        elif event == sg.WIN_CLOSED:
+                            pyperclip.copy(key)                        
+                            with open(os.path.expanduser("~/Documents/python/project /src/accounts/"+username), 'w') as file:
+                                file.write(str(Fernet(key).encrypt(bytes(username, 'utf-8') + b"\n" + bytes(password, 'utf-8'))))
+                                break
+                elif event == sg.WIN_CLOSED:
                             exit()
-                            popup.close()
-                            break
                 elif event == sg.WIN_CLOSED or 'Cancel':
                     register.close()
                     exit()
-    with open(os.path.expanduser("~/Documents/python/project /src/accounts/"+username), 'w') as file:
-        file.write(str(Fernet(key).encrypt(bytes(username, 'utf-8') + b"\n" + bytes(password, 'utf-8'))))
-
 
 def login(layoutRegister, layoutPopup, layoutLogin, key):
 
@@ -75,10 +72,6 @@ def login(layoutRegister, layoutPopup, layoutLogin, key):
                     file = open(os.path.expanduser("~/Documents/python/project /src/accounts/"+file), 'r')
                     content = file.read()
                     dec_cont = Fernet(key2).decrypt(eval(content))
-                    print(content2)
-                    print(dec_cont)
-                    print(type(content2))
-                    print(type(dec_cont))
                     if dec_cont == content2:
                         username_final = username2
                         window.close()

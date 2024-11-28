@@ -19,3 +19,7 @@ layoutLogin= [  [sg.Text('Username:', size=(18,1)), sg.In(k='-USERNAME-', size=(
                         [sg.Text('Password:', size=(18,1)), sg.In(k='-PASS-', size=(10,1))],
                         [sg.Text('Key:', size=(18,1)), sg.In(k='-KEY-', size=(10,1))],
                         [sg.Ok(), sg.Cancel(),sg.Button("New account")] ]
+
+layout_main= [
+    
+]
