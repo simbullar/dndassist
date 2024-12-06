@@ -10,6 +10,11 @@ def create_account(register, key, layoutPopup):
                 if event == 'Ok':
                     username = values['-USERNAME-']
                     password = values['-PASS-']
+                    files = os.listdir(os.path.expanduser("~/Documents/python/project /src/accounts"))
+                    for file in files:
+                        if username == str(file):
+                            sg.popup("This username is already taken")
+                            continue
                     register.close()
                     popup=sg.Window('Key', layoutPopup)
                     while True:
@@ -31,7 +36,7 @@ def login(layoutRegister, layoutPopup, layoutLogin, key):
     files = os.listdir(os.path.expanduser("~/Documents/python/project /src/accounts"))
     print(str(files))
     if str(files) == '[]' :
-        print('no accounts found')
+        print("no accounts found")
     else:
         print(str(files))
         for file in files: 
@@ -79,6 +84,7 @@ def login(layoutRegister, layoutPopup, layoutLogin, key):
                     elif content != content2:
                         print('incorrect')
                         sg.popup("Incorrect data")
+                        continue
                 else:
                     pass
         elif event == "New account":
